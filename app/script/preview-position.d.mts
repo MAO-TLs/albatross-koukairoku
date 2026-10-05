@@ -1,0 +1,1 @@
+export function previewPosition(rect: {left: number; top: number; bottom: number}, viewport: {width: number; height: number}, size: {height: number}): {left: number; top: number; width: number; maxHeight: number};

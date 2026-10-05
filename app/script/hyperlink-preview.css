@@ -1,0 +1,22 @@
+.hyperlink-trigger {
+  display: inline; margin: 0; padding: 0 1px; border: 0;
+  border-bottom: 1px dotted #9967bb; border-radius: 0;
+  background: rgba(153,103,187,.09); color: inherit; cursor: help;
+  font: inherit; line-height: inherit; text-align: inherit; white-space: pre-wrap;
+}
+.hyperlink-trigger:hover, .hyperlink-trigger:focus-visible, .hyperlink-trigger[aria-expanded="true"] {
+  background: rgba(153,103,187,.17); color: #75459a;
+}
+.hyperlink-preview {
+  position: fixed; z-index: 100; overflow: auto; overscroll-behavior: contain;
+  padding: 12px 14px; border: 1px solid #b798cd; background: #fff;
+  box-shadow: 0 12px 32px rgba(0,0,0,.2); color: #111;
+  font-family: var(--sans); font-size: 12px; font-weight: 400; line-height: 1.55;
+  text-align: left; white-space: normal;
+}
+.hyperlink-preview-heading {display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 6px; color: #75459a; font-size: 11px; font-weight: 800; letter-spacing: .04em;}
+.hyperlink-preview-heading button {border: 0; background: transparent; padding: 0 3px; cursor: pointer; font-size: 18px; line-height: 1;}
+.hyperlink-preview-passage p {margin: 0 0 12px; white-space: pre-line;}
+.hyperlink-preview-passage figure {margin: 8px 0 12px;}
+.hyperlink-preview-passage img {display: block; width: 100%; height: auto;}
+.hyperlink-preview-open {display: block; color: #75459a; text-decoration: underline; margin-top: 10px;}

@@ -1,0 +1,12 @@
+/* Saihate/WA2 geometry and typography are inherited unchanged. Color only. */
+:root { --ink:#202830; --ink-soft:#606b75; --paper:#f7f8f9; --ice:#dce2e7; --ice-deep:#bac6cf; --ice-ink:#647584; --blue:#526675; --navy:#273540; --line:rgba(34,48,60,.16); }
+.hero, .reader-header { background:#1e2932; }
+.reader-page { background:#f0f3f5; }
+footer { background:#18232c; }
+.reader-controls { box-shadow:0 12px 36px rgba(34,48,60,.08); }
+.chapter-card:hover, .concordance-route-filter button:hover:not(:disabled), .concordance-hit-link:hover, .concordance-more:hover { background:#edf1f4; }
+.control input:focus-visible, .control select:focus-visible, .script-picker button:focus-visible, .scope-options input:focus-visible + span, .concordance-route-filter button:focus-visible, .concordance-hit-link:focus-visible, .concordance-more:focus-visible, .back-to-concordance:focus-visible, .line-ref:focus-visible, .back-to-controls:focus-visible, .chapter-card:focus-visible { outline-color:rgba(92,118,138,.42); }
+.script-line:target, .script-line:focus-visible { outline-color:rgba(92,118,138,.55); }
+.hero::after { background:linear-gradient(90deg,rgba(16,23,30,.92) 0%,rgba(25,34,42,.78) 39%,rgba(26,35,43,.20) 70%,rgba(16,23,30,.05) 100%); }
+.hero .button-primary { background:#c1ccd4; color:#202b34; }
+@media(max-width:900px) { .hero::after { background:linear-gradient(90deg,rgba(16,23,30,.95) 0%,rgba(25,34,42,.84) 58%,rgba(16,23,30,.36) 100%); } }

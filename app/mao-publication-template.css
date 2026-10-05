@@ -1,0 +1,138 @@
+/*
+ * MAO publication template
+ * Canonical cross-title tokens and structural primitives.
+ * Generated copies in title repositories must remain byte-identical to this file.
+ */
+
+:root {
+  --mao-template-ink: #112033;
+  --mao-template-ink-soft: #536176;
+  --mao-template-paper: #f6f9fc;
+  --mao-template-white: #ffffff;
+  --mao-template-ice: #dcecf7;
+  --mao-template-ice-deep: #9fc2d9;
+  --mao-template-ice-ink: #496c86;
+  --mao-template-blue: #214d73;
+  --mao-template-navy: #112a46;
+  --mao-template-line: rgba(17, 42, 70, 0.14);
+  --mao-template-error: #a43c43;
+  --mao-template-error-soft: #fff7f7;
+  --mao-template-error-line: rgba(164, 60, 67, 0.48);
+  --mao-template-counterexample: #2c645b;
+  --mao-template-counterexample-soft: #f1f8f6;
+  --mao-template-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --mao-template-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mao-template-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --mao-template-shell: 1180px;
+  --mao-template-gutter: 48px;
+  --mao-template-nav-height: 92px;
+}
+
+.mao-template-shell {
+  width: min(var(--mao-template-shell), calc(100% - var(--mao-template-gutter)));
+  margin-inline: auto;
+}
+
+.mao-template-nav {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  min-height: var(--mao-template-nav-height);
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--mao-template-white);
+  font-family: var(--mao-template-sans);
+}
+
+.mao-template-wordmark,
+.mao-template-nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.mao-template-wordmark {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mao-template-nav-links {
+  gap: 30px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mao-template-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mao-template-nav-links a {
+  padding-block: 8px;
+}
+
+.mao-template-nav-links a:hover,
+.mao-template-nav-links a:focus-visible,
+.mao-template-nav-links a[aria-current="page"] {
+  color: var(--mao-template-white);
+}
+
+.mao-template-nav-links a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--mao-template-ice-deep);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+
+.mao-template-button {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 24px;
+  border: 1px solid transparent;
+  font-family: var(--mao-template-sans);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.mao-template-button:hover {
+  transform: translateY(-2px);
+}
+
+.mao-template-focus:focus-visible,
+.mao-template-nav a:focus-visible,
+.mao-template-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--mao-template-ice-deep) 70%, transparent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --mao-template-gutter: 32px;
+  }
+
+  .mao-template-nav {
+    min-height: 74px;
+  }
+
+  .mao-template-wordmark {
+    font-size: 11px;
+    letter-spacing: 0.09em;
+  }
+
+  .mao-template-nav-links {
+    gap: 16px;
+    font-size: 12px;
+  }
+
+  .mao-template-nav-links a:last-child {
+    display: none;
+  }
+}
