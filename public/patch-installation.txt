@@ -1,0 +1,52 @@
+ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.0
+
+Requires your installed Japanese DVD retail copy (2010-07-23), with exact
+matching Albatross.exe, scr.xfl, grpo.xfl and grps.xfl. Other editions and
+other English patches are not supported. This download is not the game.
+
+INSTALL
+1. Install the Japanese game normally and close it.
+2. Extract this ZIP to a separate folder. Keep every included file together.
+3. Install Python 3 if needed. On Windows, double-click Install English Patch.cmd
+   and enter the installed game folder. Do not select the MDF/MDS or DVD folder.
+   Alternatively run: python3 install_patch.py "path/to/installed/game"
+4. Start the game's Albatross.exe normally.
+
+The installer checks the edition and every output checksum before replacing
+files. Original game files are retained in MAO-original-backup inside the game
+folder. Saves and preferences are not replaced. Reinstalling this exact patch
+is safe. Keep the backup folder for restoring the Japanese version.
+
+RESTORE JAPANESE
+Close the game, then run:
+python3 install_patch.py "path/to/installed/game" --uninstall
+Saves are left untouched; the bundled font is retained in the backup folder.
+
+FEATURES
+Complete English story script; translated settings, title/Extras buttons,
+save/load titles, chapter labels, confirmations and window title. IBM Plex Mono
+Regular throughout. Left-aligned horizontal story text with word wrapping,
+authored line breaks, and Small/Medium/Large reflow into a fixed safe area.
+Original voice and scenario-control bytecode is preserved. Font/direction
+controls are locked; Japanese ruby annotations are absent from English text.
+
+FONT
+The installer places IBM Plex Mono beside the game in Fonts. The patched game
+loads it privately for its own process; no system-wide font installation or
+administrator access is required. Its SIL Open Font License is included.
+
+COMPATIBILITY / QA
+Tested locally with the project's isolated Wine environment on macOS, including
+opening-scene play, settings, save/load, wrapping, three-size reflow, and the
+reported long-page truncation regression. Native Windows and a full-game
+playthrough have not been verified. Original voice control is preserved;
+this is not a claim that every voice's audible timing has been tested.
+
+This patch is for an existing game installation. No standalone Mac application
+or Wine runtime is included; the local development wrapper is not distributed.
+Japanese saves may cache old glyph/layout state. Begin a new English game;
+back up existing saves before experimenting with cross-language checkpoints.
+
+Original game: raiL-soft. Translation project: MAO Translations.
+Bundled font: IBM Plex Mono by IBM, SIL Open Font License 1.1.
+Project and online reader: https://mao-tls.github.io/albatross-koukairoku/

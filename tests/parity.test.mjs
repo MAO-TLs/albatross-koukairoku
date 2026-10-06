@@ -18,15 +18,24 @@ test('landing keeps MAO section structure and credits', () => {
   for (const s of ['hero-grid shell', 'hero-copy', 'hero-actions', 'compatibility', 'release-strip', 'shell release-grid', 'section-heading', 'install-section', 'install-heading', 'credits-section', 'Project Lead', 'MAO', 'Translator', 'GPT-6 Astra', 'Special Thanks', 'gambs']) assert.ok(page.includes(s), s);
   assert.doesNotMatch(page, /chapter-grid|box-art/);
   assert.ok(page.indexOf('Open the script browser') > page.indexOf('Browse the complete script'));
-  assert.match(page, /Script live · Patch coming soon/);
+  assert.match(page, /Script live · English patch v/);
   assert.match(page, /unabridged/);
 });
-test('public script has no audit or premature patch release claims', () => {
+test('public script has no audit or unsupported release claims', () => {
   assert.equal(existsSync(new URL('../app/audit',import.meta.url)), false);
   assert.doesNotMatch(read('app/SiteNav.tsx'), /Audit/);
   assert.match(read('app/layout.tsx'), /index: true, follow: true/);
   assert.match(read('public/robots.txt'), /Allow: \//);
-  assert.doesNotMatch(read('app/page.tsx'), /releases\/download|<strong[^>]*>Released|46,618|18\.1 MB|v1\.1/);
+  assert.doesNotMatch(read('app/page.tsx'), /Patch coming soon|46,618|18\.1 MB|v1\.1/);
+  const patch = JSON.parse(read('public/patch-release.json'));
+  assert.equal(patch.version, '1.0.0');
+  assert.match(patch.downloadUrl, /^https:\/\/github.com\/MAO-TLs\/albatross-koukairoku\/releases\/download\/v1\.0\.0\/Albatross-Koukairoku-English-v1\.0\.0\.zip$/);
+  assert.equal(patch.sha256, '744f7f3bf3e78379310a8ffe081c8a591953d342eea172712ef0fbca2fa63ac2');
+  assert.equal(patch.exeSha256, '92649ab3facdf7f7026de735bdd928b45a54cc55b1a4f4a2cfee2c07edd8bd54');
+  assert.equal(patch.size, 3549971);
+  assert.equal(patch.requiresOriginalGame, true);
+  assert.equal(patch.standaloneMacApp, false);
+  assert.match(read('public/patch-installation.txt'), /MAO-original-backup|--uninstall/);
   assert.equal(existsSync(new URL('../.github/workflows/pages.yml',import.meta.url)), true);
 });
 test('hero and title are Albatross-specific', () => {

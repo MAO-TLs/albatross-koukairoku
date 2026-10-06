@@ -2,6 +2,7 @@ import { InstallAnchorRelease } from "./InstallAnchorRelease";
 import { SiteNav } from "./SiteNav";
 import { SiteFooter } from "./SiteFooter";
 import stats from "../public/script-data/summary.json";
+import patch from "../public/patch-release.json";
 
 export const dynamic = "force-static";
 
@@ -28,10 +29,10 @@ export default function Home() {
                 Read online <span aria-hidden="true">→</span>
               </a>
               <a className="button button-secondary" href="#install">
-                Patch coming soon <span aria-hidden="true">↓</span>
+                English patch v{patch.version} <span aria-hidden="true">↓</span>
               </a>
             </div>
-            <p className="compatibility">Script live · Patch coming soon</p>
+            <p className="compatibility">Script live · English patch v{patch.version}</p>
           </div>
           <div aria-hidden="true" />
         </div>
@@ -41,7 +42,7 @@ export default function Home() {
           <div><span className="release-label">Online script</span><strong>Live</strong></div>
           <div><span className="release-label">Script coverage</span><strong>Unabridged</strong></div>
           <div><span className="release-label">Passages</span><strong>{stats.totalLines.toLocaleString("en-US")}</strong></div>
-          <div><span className="release-label">Patch</span><strong className="release-status">Coming soon</strong></div>
+          <div><span className="release-label">Patch</span><strong className="release-status">v{patch.version}</strong></div>
         </div>
       </section>
       <section className="section shell">
@@ -57,10 +58,25 @@ export default function Home() {
       <section className="install-section" id="install">
         <div className="section shell">
           <div className="install-heading">
-            <div className="section-heading"><p className="eyebrow">English patch</p><h2>Patch coming soon</h2></div>
-            <p className="install-requirement">The complete bilingual script is live now. The English game patch,
-              supported edition, and installation instructions will follow.</p>
+            <div className="section-heading"><p className="eyebrow">English patch</p><h2>Download v{patch.version}</h2></div>
+            <p className="install-requirement">Requires your installed Japanese DVD retail copy
+              (July 23, 2010) and Python 3. This is a patch, not the game.</p>
           </div>
+          <div className="hero-actions">
+            <a className="button button-primary" href={patch.downloadUrl}>Download English patch <span aria-hidden="true">↓</span></a>
+            <a className="button button-secondary" href="./patch-installation.txt">Installation guide <span aria-hidden="true">→</span></a>
+          </div>
+          <p>Close the game, extract the ZIP to a separate folder, and run
+            <em> Install English Patch.cmd</em> on Windows. Enter the installed game folder,
+            not the DVD or disc-image folder. The installer checks the supported edition,
+            preserves your saves, and backs up the original files.</p>
+          <p>The complete English script and menus use IBM Plex Mono. Story text is
+            horizontal and left-aligned, with word wrapping, intentional line breaks,
+            and three reflowing sizes. The bundled font loads privately; no system-wide
+            font installation is needed.</p>
+          <p>Tested in Wine on macOS. Native Windows and a full-game playthrough have
+            not been verified. No standalone Mac app is included.</p>
+          <a className="text-link" href={patch.releaseUrl}>Release notes and checksums <span aria-hidden="true">→</span></a>
         </div>
       </section>
       <section className="section shell credits-section">

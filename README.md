@@ -4,7 +4,11 @@ The complete, unabridged MAO English script of raiL-soft’s *Albatross Koukairo
 
 [Read online](https://mao-tls.github.io/albatross-koukairoku/script/) · [Title page](https://mao-tls.github.io/albatross-koukairoku/)
 
-The reader contains all 13,128 passages across 84 scripts, with scene navigation, full-script search, and direct passage links. The English game patch is coming soon.
+The reader contains all 13,128 passages across 84 scripts, with scene navigation, full-script search, and direct passage links.
+
+[English patch v1.0.0](https://github.com/MAO-TLs/albatross-koukairoku/releases/tag/v1.0.0) requires the installed Japanese DVD retail edition (July 23, 2010) and Python 3. The patch-only ZIP includes a reversible, exact-hash installer and IBM Plex Mono; it does not include the original game or a standalone Mac app. See [installation instructions](public/patch-installation.txt).
+
+Local Wine opening-scene, settings, save/load, wrapping and truncation regression checks are distinct from native Windows testing or a full-game playthrough, which have not been verified.
 
 ## Development
 
