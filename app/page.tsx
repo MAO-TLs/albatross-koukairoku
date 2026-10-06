@@ -42,7 +42,7 @@ export default function Home() {
       </section>
       <section className="release-strip" aria-label="Release information">
         <div className="shell release-grid">
-          <div><span className="release-label">Version</span><strong>{patch.version}</strong></div>
+          <div><span className="release-label">Version</span><strong>v{patch.version}</strong></div>
           <div><span className="release-label">Script coverage</span><strong>Main game</strong></div>
           <div><span className="release-label">Passages</span><strong>{stats.totalLines.toLocaleString("en-US")} passages</strong></div>
           <div><span className="release-label">Status</span><strong className="release-status">Released</strong></div>

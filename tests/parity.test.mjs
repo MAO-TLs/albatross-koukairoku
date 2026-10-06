@@ -19,7 +19,7 @@ test('landing keeps MAO section structure and credits', () => {
   assert.doesNotMatch(page, /chapter-grid|box-art/);
   assert.ok(page.indexOf('Open the script browser') > page.indexOf('Browse the complete script'));
   assert.match(page, /Download complete release/);
-  assert.match(page, /Version<\/span><strong>\{patch.version\}/);
+  assert.match(page, /Version<\/span><strong>v\{patch.version\}<\/strong>/);
   assert.match(page, /Status<\/span><strong className="release-status">Released/);
   assert.match(page, /Main game/);
   assert.match(page, /MB · <a href=\{patch.releaseUrl\}>Release notes/);
