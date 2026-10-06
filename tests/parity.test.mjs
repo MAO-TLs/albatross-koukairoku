@@ -42,10 +42,12 @@ test('public script has no audit or unsupported release claims', () => {
   const patch = JSON.parse(read('public/patch-release.json'));
   assert.equal(patch.version, '1.0.0');
   assert.match(patch.downloadUrl, /^https:\/\/github.com\/MAO-TLs\/albatross-koukairoku\/releases\/download\/v1\.0\.0\/Albatross-Koukairoku-English-v1\.0\.0\.zip$/);
-  assert.equal(patch.sha256, '8dbc045d0a50815c7a9054f5b6da167400e15eaf59003672e598c68347f93d5f');
-  assert.equal(patch.revision, '2026-10-07-story-text-crash-hotfix');
-  assert.equal(patch.exeSha256, '1fce23eca6f6b4292b86496cc1937836ee33611156daf76a672cd4ef06bd7f9f');
-  assert.equal(patch.size, 3550660);
+  assert.equal(patch.sha256, 'ee940d1201fdebc3fef3d29a5875101dba773d3bcf72fc39127f86e6b5130f6a');
+  assert.equal(patch.revision, '2026-10-07-readability-hotfix');
+  assert.equal(patch.exeSha256, '54bed8bfd89bc328c4808a8c1b252cf339515f73436846f7af8990803910cd27');
+  assert.equal(patch.size, 3551154);
+  assert.deepEqual(patch.storyFontSizes, [14, 18, 20]);
+  assert.match(read('public/patch-installation.txt'), /already-filled page can still clip/);
   assert.equal(patch.requiresOriginalGame, true);
   assert.equal(patch.standaloneMacApp, false);
   assert.match(read('public/patch-installation.txt'), /MAO-original-backup|--uninstall/);

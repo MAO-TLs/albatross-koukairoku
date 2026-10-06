@@ -14,8 +14,10 @@ STORY_WIDTH = 720
 STORY_HEIGHT = 530
 STORY_ORIGIN = 20
 STORY_CAPACITY = 8192
+STORY_FONT_SIZES = (14, 18, 20)  # Small, Medium, Large, in logical pixels.
 ENGLISH_PREPROCESSOR_DBCS_CALLS = (0x41D623, 0x41D6F8)
 ENGLISH_PREPROCESSOR_BUFFER = 8192
+SLOW_TEXT_DELAY = 4  # Normal stays 2 native ticks; Slow is twice the interval.
 FONT_CREATION_CALLS = (0x4038EF, 0x456D5E, 0x457E96, 0x45C63D,
                        0x45C670, 0x45C9CA, 0x45C9FA, 0x45CD1D,
                        0x45CD50, 0x45D10C, 0x45D448, 0x45D6B4)
@@ -118,10 +120,21 @@ def build_hooks(font_face="IBM Plex Mono"):
     insert.emit("66 89 4c 42 fe 66 89 5c 42 fc")
     # ECX must remain the parent for the registration epilogue.
     insert.emit("89 f1 5b 5a 58 c3")
+    # Translate only the persisted settings index into a reveal interval.
+    # Keep saved preferences/UI selection at 3, and leave authored per-glyph
+    # speed controls and the generic delay setter unchanged.
+    speed = Code(0x472F00)
+    speed.emit("8b 44 24 0c 8b 54 24 08 66 83 fa 03")
+    speed.branch("0f85", "unchanged")
+    speed.emit("66 ba")
+    speed.data.extend(struct.pack("<H", SLOW_TEXT_DELAY))
+    speed.label("unchanged")
+    speed.branch("e9", 0x42DEA8)
     return {"horizontal_and_font_defaults": startup,
             "retain_ANSI_glyph_in_padding": capture,
             "word_boundary_wrap": wrap,
-            "stable_fast_story_glyph_registration": insert}
+            "stable_fast_story_glyph_registration": insert,
+            "distinct_slow_text_interval": speed}
 
 
 def apply_layout_hooks(image, font_face="IBM Plex Mono"):
@@ -175,6 +188,8 @@ def apply_layout_hooks(image, font_face="IBM Plex Mono"):
         code = hook.finish()
         patch(hook.address, b"\0" * len(code), code, role)
     jump(0x4193AB, "68 2a 2a 48 00", 0x472D00, "force English defaults after preferences load")
+    jump(0x42DEA0, "8b 44 24 0c 8b 54 24 08", 0x472F00,
+         "map Slow preference to twice Normal reveal interval")
     jump(0x4550C2, "66 83 fe 20 0f 84 ab 02 00 00", 0x472D80,
          "retain glyph character without changing classification")
     jump(0x455500, "8b 96 98 01 00 00", 0x472E00,
@@ -200,6 +215,19 @@ def apply_layout_hooks(image, font_face="IBM Plex Mono"):
         ]:
             patch(address, b"\x68" + struct.pack("<I", old),
                   b"\x68" + struct.pack("<I", new), role)
+    # Enlarge only horizontal story presets, not settings/menu fonts. Match
+    # the layout's half-cell advance and auxiliary text spacing to each new
+    # even size, otherwise ASCII can overlap despite a larger glyph bitmap.
+    for size_address, cell_address, old_size, new_size in [
+        (0x430367, 0x430371, 12, STORY_FONT_SIZES[0]),
+        (0x430394, 0x43039E, 16, STORY_FONT_SIZES[1]),
+        (0x4303E2, 0x4303EC, 18, STORY_FONT_SIZES[2]),
+    ]:
+        patch(size_address, bytes([0x6A, old_size]), bytes([0x6A, new_size]),
+              "slightly larger English story font preset")
+        patch(cell_address, b"\xbb" + struct.pack("<I", old_size // 2),
+              b"\xbb" + struct.pack("<I", new_size // 2),
+              "match story cell advance to enlarged font preset")
     # The old snap positions were calculated for the small Japanese box.
     # Anchor the enlarged English box at the same safe top-left origin for
     # all sizes/saved snap preferences. Preserve the native position call.

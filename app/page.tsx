@@ -98,7 +98,10 @@ export default function Home() {
           <aside className="install-warning">
             <strong>Translation patch</strong>
             <p>Already on v1.0.0? The October 7 hotfix corrects the Stop Voice
-              labels and fixes a system-code-page-dependent story-text crash.
+              labels, fixes a system-code-page-dependent story-text crash, enlarges
+              the three story font sizes to 14/18/20 px, and makes Slow reveal
+              distinctly slower than Normal. Enlarging an already-filled page
+              can still clip text; choose your preferred size before continuing.
               Re-download and rerun the installer, keeping
               <code>MAO-original-backup</code> in place. Your saves are preserved.</p>
             <p>This unofficial, noncommercial patch does not include the original

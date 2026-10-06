@@ -15,7 +15,8 @@ FONT = 'IBMPlexMono-Regular.ttf'
 BACKUP = 'MAO-original-backup'
 PREVIOUS_OUTPUTS = {
     # v1.0.0 before the locale-sensitive story preprocessing crash fix.
-    'Albatross.exe': ('92649ab3facdf7f7026de735bdd928b45a54cc55b1a4f4a2cfee2c07edd8bd54',),
+    'Albatross.exe': ('92649ab3facdf7f7026de735bdd928b45a54cc55b1a4f4a2cfee2c07edd8bd54',
+                      '1fce23eca6f6b4292b86496cc1937836ee33611156daf76a672cd4ef06bd7f9f'),
     # Initial v1.0.0 UI archive; the hotfix changes only Stop Voice labels.
     'grps.xfl': ('905908febd79f621e72f95bb546b6dc680e4b1c2eb9db41ee07bca63b658325f',),
 }

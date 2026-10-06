@@ -1,5 +1,14 @@
 ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.0
 
+2026-10-07 readability hotfix: Small/Medium/Large story fonts are now
+14/18/20 logical pixels (previously 12/16/18), with matching character spacing.
+Slow text reveal now takes twice as long as Normal; Instant is unchanged.
+Re-download and rerun the installer with MAO-original-backup retained.
+These changes pass native-code layout/timing and installer regression tests.
+They have not received a new live-game playthrough. Changing font size on an
+already-filled page can still clip accumulated text; select your preferred
+size before continuing, rather than enlarging a dense page midway through it.
+
 2026-10-07 crash hotfix: English story preprocessing is now independent of
 the Windows system code page, and its temporary buffer has been enlarged for
 the longest translated passages. Re-download and rerun this installer if you
@@ -39,9 +48,6 @@ authored line breaks, and Small/Medium/Large reflow into a fixed safe area.
 Original voice and scenario-control bytecode is preserved. Font/direction
 controls are locked; Japanese ruby annotations are absent from English text.
 
-The reported opening-cabin crash transition is reproduced and fixed in the
-native-code regression harness under Japanese and Western code-page rules.
-
 FONT
 The installer places IBM Plex Mono beside the game in Fonts. The patched game
 loads it privately for its own process; no system-wide font installation or
@@ -53,6 +59,8 @@ opening-scene play, settings, save/load, wrapping, three-size reflow, and the
 reported long-page truncation regression. Native Windows and a full-game
 playthrough have not been verified. Original voice control is preserved;
 this is not a claim that every voice's audible timing has been tested.
+The reported opening-cabin crash transition is reproduced and fixed in the
+native-code regression harness under Japanese and Western code-page rules.
 
 This patch is for an existing game installation. No standalone Mac application
 or Wine runtime is included; the local development wrapper is not distributed.
