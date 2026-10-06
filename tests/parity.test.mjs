@@ -28,6 +28,9 @@ test('landing keeps MAO section structure and credits', () => {
   assert.equal((page.match(/<li><span>0[123]<\/span>/g) || []).length, 3);
   assert.equal((page.match(/className="hero-actions"/g) || []).length, 1);
   assert.equal((page.match(/className="install-warning"/g) || []).length, 2);
+  assert.match(page, /bilingual script is available now\.<\/p>\s*<\/div>\s*<a className="text-link"/);
+  assert.match(page, /<code>Install English Patch\.cmd<\/code>/);
+  assert.doesNotMatch(page, /<code>\s|\s<\/code>/);
   assert.match(page, /unabridged/);
 });
 test('public script has no audit or unsupported release claims', () => {

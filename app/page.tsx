@@ -55,8 +55,8 @@ export default function Home() {
           <p>Read the Japanese and MAO English script side by side, with scene
             search, corpus search, and direct passage links. The unabridged
             bilingual script is available now.</p>
-          <a className="text-link" href="./script/">Open the script browser <span aria-hidden="true">→</span></a>
         </div>
+        <a className="text-link" href="./script/">Open the script browser <span aria-hidden="true">→</span></a>
       </section>
       <section className="install-section" id="install">
         <div className="section shell">
@@ -74,8 +74,8 @@ export default function Home() {
             </div></li>
             <li><span>02</span><div>
               <h3>Apply the English patch</h3>
-              <p>Extract the ZIP to a separate folder. On Windows, run
-                <code> Install English Patch.cmd</code> and enter the installed game
+              <p>Extract the ZIP to a separate folder. On Windows, run{" "}
+                <code>Install English Patch.cmd</code> and enter the installed game
                 folder—not the DVD or disc-image folder. On macOS with Wine, use
                 the Python installer as directed in the <a href="./patch-installation.txt">bundled README</a>.
                 The installer checks the edition, preserves saves and keeps the
