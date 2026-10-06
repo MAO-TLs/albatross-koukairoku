@@ -97,8 +97,9 @@ export default function Home() {
           </aside>
           <aside className="install-warning">
             <strong>Translation patch</strong>
-            <p>Already on v1.0.0? The October 7 UI hotfix corrects the Stop Voice
-              labels to On / Off. Re-download and rerun the installer, keeping
+            <p>Already on v1.0.0? The October 7 hotfix corrects the Stop Voice
+              labels and fixes a system-code-page-dependent story-text crash.
+              Re-download and rerun the installer, keeping
               <code>MAO-original-backup</code> in place. Your saves are preserved.</p>
             <p>This unofficial, noncommercial patch does not include the original
               game. Japanese saves may cache old text/layout state. See the

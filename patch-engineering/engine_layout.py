@@ -14,6 +14,8 @@ STORY_WIDTH = 720
 STORY_HEIGHT = 530
 STORY_ORIGIN = 20
 STORY_CAPACITY = 8192
+ENGLISH_PREPROCESSOR_DBCS_CALLS = (0x41D623, 0x41D6F8)
+ENGLISH_PREPROCESSOR_BUFFER = 8192
 FONT_CREATION_CALLS = (0x4038EF, 0x456D5E, 0x457E96, 0x45C63D,
                        0x45C670, 0x45C9CA, 0x45C9FA, 0x45CD1D,
                        0x45CD50, 0x45D10C, 0x45D448, 0x45D6B4)
@@ -226,6 +228,34 @@ def apply_layout_hooks(image, font_face="IBM Plex Mono"):
          "never combine English display bytes as Shift-JIS pairs")
     jump(0x454426, "0f 84 82 00 00 00", 0x4544AE,
          "never combine English bytes in primary parser as Shift-JIS pairs")
+
+    # Before text reaches either display parser, the script handler expands it
+    # through two older string-copy passes. Both ask IsDBCSLeadByteEx(CP_ACP)
+    # whether each byte begins a Shift-JIS pair. On a Japanese system, ordinary
+    # CP1252 punctuation such as a closing curly quote (0x94) is classified as
+    # a lead byte. When that quote is the final visible byte, the copier skips
+    # its NUL terminator and continues into later strings, overflowing its
+    # 1,024-byte stack buffer. English script text is deliberately single-byte,
+    # so consume the two pushed API arguments and return false at these two
+    # story preprocessing call sites. Other engine/asset string paths retain
+    # their locale-aware behavior.
+    for address in ENGLISH_PREPROCESSOR_DBCS_CALLS:
+        patch(address, bytes.fromhex("ff 15 7c 30 47 00"),
+              bytes.fromhex("83 c4 08 31 c0 90"),
+              "treat English story preprocessing as single-byte")
+    # Three legitimate English records are slightly larger than the retail
+    # routine's 1,024-byte temporary buffer even without the locale bug. Keep
+    # the formatter and its substitutions intact, but enlarge only this local
+    # story-text frame to the same audited bound as the story glyph pool.
+    patch(0x41D7E4, bytes.fromhex("81 ec 00 04 00 00"),
+          b"\x81\xec" + struct.pack("<I", ENGLISH_PREPROCESSOR_BUFFER),
+          "enlarge English story preprocessing buffer")
+    patch(0x41D7F6, bytes.fromhex("8b b4 24 10 04 00 00"),
+          bytes.fromhex("8b b4 24") + struct.pack("<I", ENGLISH_PREPROCESSOR_BUFFER + 16),
+          "address caller argument beyond enlarged story buffer")
+    patch(0x41D80E, bytes.fromhex("81 c4 00 04 00 00"),
+          b"\x81\xc4" + struct.pack("<I", ENGLISH_PREPROCESSOR_BUFFER),
+          "release enlarged English story preprocessing buffer")
 
     # These are distinct callbacks: 42E390 is SIZE, not direction.
     for address, tail, role in [

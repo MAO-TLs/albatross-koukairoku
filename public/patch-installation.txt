@@ -1,5 +1,10 @@
 ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.0
 
+2026-10-07 crash hotfix: English story preprocessing is now independent of
+the Windows system code page, and its temporary buffer has been enlarged for
+the longest translated passages. Re-download and rerun this installer if you
+already installed v1.0.0; keep MAO-original-backup in place.
+
 2026-10-07 UI hotfix: Stop Voice now correctly reads On (left), Off (right),
 matching the Japanese あり / なし buttons. Re-download and rerun this installer
 to update an initial v1.0.0 installation; keep MAO-original-backup in place.
@@ -33,6 +38,9 @@ Regular throughout. Left-aligned horizontal story text with word wrapping,
 authored line breaks, and Small/Medium/Large reflow into a fixed safe area.
 Original voice and scenario-control bytecode is preserved. Font/direction
 controls are locked; Japanese ruby annotations are absent from English text.
+
+The reported opening-cabin crash transition is reproduced and fixed in the
+native-code regression harness under Japanese and Western code-page rules.
 
 FONT
 The installer places IBM Plex Mono beside the game in Fonts. The patched game
