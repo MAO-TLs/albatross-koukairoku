@@ -1,5 +1,9 @@
 ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.0
 
+2026-10-07 UI hotfix: Stop Voice now correctly reads On (left), Off (right),
+matching the Japanese あり / なし buttons. Re-download and rerun this installer
+to update an initial v1.0.0 installation; keep MAO-original-backup in place.
+
 Requires your installed Japanese DVD retail copy (2010-07-23), with exact
 matching Albatross.exe, scr.xfl, grpo.xfl and grps.xfl. Other editions and
 other English patches are not supported. This download is not the game.

@@ -13,6 +13,10 @@ import tempfile
 FILES = ('Albatross.exe', 'scr.xfl', 'grpo.xfl', 'grps.xfl')
 FONT = 'IBMPlexMono-Regular.ttf'
 BACKUP = 'MAO-original-backup'
+PREVIOUS_OUTPUTS = {
+    # Initial v1.0.0 UI archive; the hotfix changes only Stop Voice labels.
+    'grps.xfl': ('905908febd79f621e72f95bb546b6dc680e4b1c2eb9db41ee07bca63b658325f',),
+}
 
 
 def digest(data): return hashlib.sha256(data).hexdigest()
@@ -44,11 +48,11 @@ def install(package, game, uninstall=False):
         target, saved = targets[row['name']], backup / row['name']
         if not target.is_file(): raise ValueError(f"Missing {row['name']}. No files changed.")
         actual = file_hash(target)
-        if actual not in (row['source_sha256'], row['output_sha256']):
+        if actual not in (row['source_sha256'], row['output_sha256'], *PREVIOUS_OUTPUTS.get(row['name'], ())):
             raise ValueError(f"{row['name']} is not the supported Japanese retail edition or this patch. No files changed.")
         if saved.exists() and (saved.is_symlink() or file_hash(saved) != row['source_sha256']):
             raise ValueError(f"Conflicting original backup for {row['name']}. No files changed.")
-        if actual == row['output_sha256'] and not saved.is_file():
+        if actual != row['source_sha256'] and not saved.is_file():
             raise ValueError(f"Original backup missing for {row['name']}. No files changed.")
         current[row['name']] = actual
     if font_target.exists() and file_hash(font_target) != manifest['font_sha256']:

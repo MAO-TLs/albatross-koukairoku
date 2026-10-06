@@ -1,7 +1,7 @@
 # v1.0.0 executable and installer sources
 
-These are the exact executable-hook and installer sources used for the v1.0.0
-patch. Original game files are not included. The published ZIP is a delta patch
+These are the executable-hook, UI-label and installer sources used for the v1.0.0
+patch and its 2026-10-07 Stop Voice hotfix. Original game files are not included. The published ZIP is a delta patch
 and requires the exact 2010-07-23 Japanese DVD retail files.
 
 `install_patch.py` is standalone and accompanies `patch.json`, `patch.dat.gz`
@@ -21,7 +21,12 @@ bytecode is preserved.
 
 ## Verification scope
 
-- 19 x86/layout regression tests, 8 installer tests, 3 script-control tests.
+- 19 x86/layout regression tests, 10 installer tests, 3 script-control tests,
+  and 4 source-bound UI-label/scope tests.
+- Stop Voice correctly shows On (left) / Off (right), matching あり / なし.
+  Only its six normal/hover/selected sprite payloads changed; native positions,
+  callbacks and every other archive entry are unchanged. The installer accepts
+  the initial v1.0.0 UI archive only with its verified original-file backup.
 - 13,098 native text calls audited in linear bytecode order; 11,265 modeled
   page groups across all three sizes, maximum candidate 3,429 glyphs and zero
   modeled fit failures. Native auto-clear-and-retry is modeled; this is not
@@ -32,7 +37,7 @@ bytecode is preserved.
   not verified. A standalone Mac app is not included.
 
 Release archive SHA-256:
-`744f7f3bf3e78379310a8ffe081c8a591953d342eea172712ef0fbca2fa63ac2`
+`6920c784ea3373865a068877afe00d718ac9306343b40b2066bd89a5e35b4008`
 
 Patched executable SHA-256:
 `92649ab3facdf7f7026de735bdd928b45a54cc55b1a4f4a2cfee2c07edd8bd54`
