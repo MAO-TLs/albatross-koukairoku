@@ -10,6 +10,12 @@ test('all 13,128 passages in 84 scripts are browsable and searchable exactly onc
   assert.equal(summary.totalScripts, 84);
   assert.equal(summary.pass3Lines, 10_840);
   assert.equal(summary.deeplLines, 2_288);
+  assert.equal(summary.editorialCorrections, 55);
+  assert.equal(summary.narratorCorrections, 437);
+  assert.equal(summary.mechanicalEditorialLines, 140);
+  assert.equal(summary.mechanicalEditorialReplacements, 155);
+  assert.equal(summary.englishDelimiterRepairLines, 19);
+  assert.ok(summary.englishBreakRestorationLines > 4_000);
   assert.equal(index.version, corpus.version);
   assert.equal(index.version, summary.version);
   assert.equal(index.totalLines, corpus.totalLines);
@@ -49,8 +55,18 @@ test('all 13,128 passages in 84 scripts are browsable and searchable exactly onc
   assert.equal(json('3016.json').lines[2].english,
     'Color.\nGorgeous.\nResplendent.\nGlittering.\nThe light draped across the sky tonight: an aurora in curtains.');
   const opening = json('1002.json').lines;
-  assert.match(opening[36].english, /Should one laugh at him\?/);
+  assert.match(opening[36].english, /Should one laugh at the young man.*\?/);
   assert.match(opening[38].english, /their underwear/);
   assert.match(opening[53].english, /captain—the albino girl—/);
-  assert.match(opening[60].english, /^For a split second, he almost pictured/);
+  assert.match(opening[60].english, /^For one instant he found himself on the verge of picturing/);
+  assert.equal(json('5008.json').lines[113].english, '“I really did risk my life.”');
+  assert.match(json('2010.json').lines[463].english, /^“Focus on his hands\.”$/);
+  assert.match(json('2011.json').lines[191].english, /^\(What…!\? Her hair\'s changing color…\)$/);
+  assert.match(json('4005.json').lines[261].english, /^Rui feels it\./);
+  assert.match(json('4006.json').lines[25].english, /coupling with Rui/);
+  assert.match(json('2010.json').lines[126].english, /Could Kuro harbor feelings for him/);
+  assert.doesNotMatch(json('2010.json').lines[126].english, /\bmy heart\b/i);
+  assert.match(json('4010.json').lines[2].english, /Tomosato’s pronouncement/);
+  assert.match(json('5007.json').lines[8].english, /the single-barreled gun that had burst/);
+  assert.match(json('2008.json').lines[307].english, /\[\]/);
 });
