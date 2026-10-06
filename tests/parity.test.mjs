@@ -18,7 +18,16 @@ test('landing keeps MAO section structure and credits', () => {
   for (const s of ['hero-grid shell', 'hero-copy', 'hero-actions', 'compatibility', 'release-strip', 'shell release-grid', 'section-heading', 'install-section', 'install-heading', 'credits-section', 'Project Lead', 'MAO', 'Translator', 'GPT-6 Astra', 'Special Thanks', 'gambs']) assert.ok(page.includes(s), s);
   assert.doesNotMatch(page, /chapter-grid|box-art/);
   assert.ok(page.indexOf('Open the script browser') > page.indexOf('Browse the complete script'));
-  assert.match(page, /Script live · English patch v/);
+  assert.match(page, /Download complete release/);
+  assert.match(page, /Version<\/span><strong>\{patch.version\}/);
+  assert.match(page, /Status<\/span><strong className="release-status">Released/);
+  assert.match(page, /Main game/);
+  assert.match(page, /MB · <a href=\{patch.releaseUrl\}>Release notes/);
+  assert.match(page, /Windows \+ Wine · Japanese DVD retail edition required/);
+  assert.match(page, /className="install-steps"/);
+  assert.equal((page.match(/<li><span>0[123]<\/span>/g) || []).length, 3);
+  assert.equal((page.match(/className="hero-actions"/g) || []).length, 1);
+  assert.equal((page.match(/className="install-warning"/g) || []).length, 2);
   assert.match(page, /unabridged/);
 });
 test('public script has no audit or unsupported release claims', () => {
