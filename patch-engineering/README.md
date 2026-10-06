@@ -14,8 +14,10 @@ The executable changes lock horizontal IBM Plex Mono, load the bundled font
 privately through the Unicode executable-directory path, use unsigned CP1252
 decoding, wrap at word boundaries while preserving hard breaks, reflow the
 three text sizes in a 720×530 story area, and expand the glyph pool to 8,192
-with constructor-specific stable registration. Ruby/font/direction controls
-are inert. Script voice/control bytecode is preserved.
+with constructor-specific stable registration. Font/direction controls are
+inert. Japanese ruby annotations are absent from the English text, so ruby
+display controls have no English annotations to show. Script voice/control
+bytecode is preserved.
 
 ## Verification scope
 
