@@ -16,9 +16,12 @@ BACKUP = 'MAO-original-backup'
 PREVIOUS_OUTPUTS = {
     # v1.0.0 before the locale-sensitive story preprocessing crash fix.
     'Albatross.exe': ('92649ab3facdf7f7026de735bdd928b45a54cc55b1a4f4a2cfee2c07edd8bd54',
-                      '1fce23eca6f6b4292b86496cc1937836ee33611156daf76a672cd4ef06bd7f9f'),
+                      '1fce23eca6f6b4292b86496cc1937836ee33611156daf76a672cd4ef06bd7f9f',
+                      '54bed8bfd89bc328c4808a8c1b252cf339515f73436846f7af8990803910cd27'),
     # Initial v1.0.0 UI archive; the hotfix changes only Stop Voice labels.
     'grps.xfl': ('905908febd79f621e72f95bb546b6dc680e4b1c2eb9db41ee07bca63b658325f',),
+    # All v1.0.0 builds omitted native choice-layout prefixes.
+    'scr.xfl': ('a23926b08200c40dfecb07cdf494c4da5bdc77681b2e7279cff8e0351ccc2e91',),
 }
 
 
@@ -113,11 +116,11 @@ def install(package, game, uninstall=False):
                 shutil.copy2(stage / ('rollback-' + name), targets[name])
             if font_created and font_target.exists(): font_target.unlink()
             raise
-    return 'Japanese originals restored; saves untouched.' if uninstall else 'English v1.0.0 installed. Original files and saves are preserved.'
+    return 'Japanese originals restored; saves untouched.' if uninstall else f"English v{manifest['version']} installed. Original files and saves are preserved."
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Albatross English v1.0.0. Close the game before installing.')
+    parser = argparse.ArgumentParser(description='Albatross English v1.0.1. Close the game before installing.')
     parser.add_argument('game_folder', type=Path)
     parser.add_argument('--uninstall', action='store_true')
     args = parser.parse_args()

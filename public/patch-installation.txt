@@ -1,4 +1,19 @@
-ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.0
+ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.1
+
+v1.0.1 (2026-10-08): Enlarges the story caller and both text-rebuild destination
+buffers from 1,024 to 8,192 bytes. Three legitimate English records could
+overwrite the caller's return address despite the earlier inner-buffer fix.
+Native regression tests reproduce the old corruption and verify the corrected
+copy, caller arguments and stack cleanup in all three paths.
+
+Restores the original layout tags for all 30 choice
+captions. Missing tags made the first twins choice invisible and prevented
+normal advancement. Choice captions remain English; scenario bytecode and
+branch destinations are unchanged. Native menu-parser and archive regression
+tests pass. These fixes have not received a new live-game playthrough.
+To update v1.0.0, close the game and rerun this installer with your existing
+MAO-original-backup retained. Saves and preferences are preserved. If a save
+was made at the broken menu, try a checkpoint before the twins' question.
 
 2026-10-07 readability hotfix: Small/Medium/Large story fonts are now
 14/18/20 logical pixels (previously 12/16/18), with matching character spacing.

@@ -1,7 +1,7 @@
-# v1.0.0 executable and installer sources
+# v1.0.1 executable and installer sources
 
-These are the executable-hook, UI-label and installer sources used for the v1.0.0
-patch and its 2026-10-07 UI, story-text crash and readability hotfixes. Original game files are not included. The published ZIP is a delta patch
+These are the executable-hook, UI-label, script and installer sources used for v1.0.1,
+including the earlier v1.0.0 hotfixes. Original game files are not included. The published ZIP is a delta patch
 and requires the exact 2010-07-23 Japanese DVD retail files.
 
 `install_patch.py` is standalone and accompanies `patch.json`, `patch.dat.gz`
@@ -27,11 +27,20 @@ The story formatter treats the English archive as single-byte regardless of
 the Windows system code page and uses an 8,192-byte temporary buffer. This
 prevents CP1252 punctuation from being consumed as Shift-JIS and accommodates
 the longest translated records without changing other engine string paths.
+v1.0.1 also enlarges the outer story destination and both text-rebuild frames
+to 8,192 bytes, including relocated caller arguments and matching cleanup.
+The three legitimate records above 1,023 bytes previously overwrote the caller's
+return address. All three native paths reproduce the old corruption and pass
+the corrected copy/argument/stack-cleanup regressions.
+
+All 30 choice captions retain the source `<01>` layout prefix. Both native
+question and answer parsers now select existing `sel_q01`/`sel_a01` artwork,
+rather than the missing default 00 artwork. Reader text remains unchanged.
 
 ## Verification scope
 
-- 23 x86/layout regression tests, 12 installer tests, 3 script-control tests,
-  and 4 source-bound UI-label/scope tests.
+- 23 x86/layout regression tests, 13 installer tests, 3 script-control tests,
+  4 source-bound UI-label/scope tests, 4 choice tests and 3 caller-buffer tests.
 - Stop Voice correctly shows On (left) / Off (right), matching あり / なし.
   Only its six normal/hover/selected sprite payloads changed; native positions,
   callbacks and every other archive entry are unchanged. The installer accepts
@@ -44,12 +53,12 @@ the longest translated records without changing other engine string paths.
   loading, and the reported truncation regression verified in the game window.
 - Native Windows, full-game playthrough and every voice's audible timing are
   not verified. A standalone Mac app is not included.
-- The readability changes have native-code regression proof, not a new live
+- The v1.0.1 and readability changes have native-code regression proof, not a new live
   game check. Enlarging an already-filled page can still clip accumulated text;
   select the desired size before continuing rather than resizing a dense page.
 
 Release archive SHA-256:
-`ee940d1201fdebc3fef3d29a5875101dba773d3bcf72fc39127f86e6b5130f6a`
+`87b114e088f26c521602e87998a2926ca7c71e1bc3033dc7a3c48635723f941c`
 
 Patched executable SHA-256:
-`54bed8bfd89bc328c4808a8c1b252cf339515f73436846f7af8990803910cd27`
+`7b53c254ab511a8829b29fd11f03d4b368b044b8c7a15eb1198525702b1e3eac`

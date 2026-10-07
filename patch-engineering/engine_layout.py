@@ -17,6 +17,23 @@ STORY_CAPACITY = 8192
 STORY_FONT_SIZES = (14, 18, 20)  # Small, Medium, Large, in logical pixels.
 ENGLISH_PREPROCESSOR_DBCS_CALLS = (0x41D623, 0x41D6F8)
 ENGLISH_PREPROCESSOR_BUFFER = 8192
+# Each destination frame must accommodate the preprocessor's output too.
+# Internal LEAs stay relative to the buffer; only caller arguments move.
+ENGLISH_TEXT_FRAME_PATCHES = (
+    (0x42D790, '81 ec 00 04 00 00', '81 ec 00 20 00 00'),
+    (0x42D797, '8b 9c 24 1c 04 00 00', '8b 9c 24 1c 20 00 00'),
+    (0x42D7A1, '66 8b 8c 24 14 04 00 00', '66 8b 8c 24 14 20 00 00'),
+    (0x42D7B0, '8b bc 24 1c 04 00 00', '8b bc 24 1c 20 00 00'),
+    (0x42D7C7, '8b 84 24 18 04 00 00', '8b 84 24 18 20 00 00'),
+    (0x42D7DC, '8b 8c 24 14 04 00 00', '8b 8c 24 14 20 00 00'),
+    (0x42D7F4, '8b bc 24 28 04 00 00', '8b bc 24 28 20 00 00'),
+    (0x42D925, '81 c4 00 04 00 00', '81 c4 00 20 00 00'),
+    (0x42C2E0, '81 ec 00 04 00 00', '81 ec 00 20 00 00'),
+    (0x42C472, '81 c4 00 04 00 00', '81 c4 00 20 00 00'),
+    (0x42C480, '81 ec 00 04 00 00', '81 ec 00 20 00 00'),
+    (0x42C4B2, '8b 84 24 0c 04 00 00', '8b 84 24 0c 20 00 00'),
+    (0x42C6C8, '81 c4 00 04 00 00', '81 c4 00 20 00 00'),
+)
 SLOW_TEXT_DELAY = 4  # Normal stays 2 native ticks; Slow is twice the interval.
 FONT_CREATION_CALLS = (0x4038EF, 0x456D5E, 0x457E96, 0x45C63D,
                        0x45C670, 0x45C9CA, 0x45C9FA, 0x45CD1D,
@@ -284,6 +301,9 @@ def apply_layout_hooks(image, font_face="IBM Plex Mono"):
     patch(0x41D80E, bytes.fromhex("81 c4 00 04 00 00"),
           b"\x81\xc4" + struct.pack("<I", ENGLISH_PREPROCESSOR_BUFFER),
           "release enlarged English story preprocessing buffer")
+    for address, original, replacement in ENGLISH_TEXT_FRAME_PATCHES:
+        patch(address, bytes.fromhex(original), bytes.fromhex(replacement),
+              "enlarge story/rebuild destination frame and retain caller arguments")
 
     # These are distinct callbacks: 42E390 is SIZE, not direction.
     for address, tail, role in [
