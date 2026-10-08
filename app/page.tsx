@@ -95,20 +95,6 @@ export default function Home() {
               regression were checked in Wine on macOS. Native Windows and a full-game
               playthrough have not been verified. No standalone Mac app is included.</p>
           </aside>
-          <aside className="install-warning">
-            <strong>Translation patch</strong>
-            <p>Already on v1.0.0? Version 1.0.1 fixes invisible choices—including
-              the twins’ question—and a text-buffer overflow in dialogue and
-              text-rebuild paths. It includes the earlier Stop Voice, text-speed
-              and 14/18/20 px font fixes. Enlarging an already-filled page
-              can still clip text; choose your preferred size before continuing.
-              Re-download and rerun the installer, keeping
-              <code>MAO-original-backup</code> in place. Your saves are preserved.</p>
-            <p>This unofficial, noncommercial patch does not include the original
-              game. Japanese saves may cache old text/layout state. See the
-              <a href="./patch-installation.txt"> installation guide</a> for restoration
-              instructions and the <a href={patch.releaseUrl}>release notes</a> for checksums.</p>
-          </aside>
         </div>
       </section>
       <section className="section shell credits-section">
