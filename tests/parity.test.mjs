@@ -63,7 +63,7 @@ test('hero and title are Albatross-specific', () => {
 });
 test('complete reader is mounted through the existing MAO engine', () => {
   assert.match(read('app/script/page.tsx'), /<ScriptBrowser \/>/);
-  assert.match(read('app/script/page.tsx'), /Complete script/);
+  assert.match(read('app/script/page.tsx'), /Script version v1\.0\.0/);
   assert.doesNotMatch(read('app/script/page.tsx'), /will be available|Coming soon/);
   assert.match(read('app/script/ScriptBrowser.tsx'), /albatross-public-concordance/);
   assert.match(read('app/script/ScriptBrowser.tsx'), /className="reader-controls"/);

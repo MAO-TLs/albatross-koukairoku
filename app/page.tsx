@@ -34,7 +34,7 @@ export default function Home() {
             </div>
             <p className="compatibility">
               {(patch.size / 1_000_000).toFixed(1)} MB · <a href={patch.releaseUrl}>Release notes</a>
-              {" · Version "}{patch.version}{" · Windows + Wine · Japanese DVD retail edition required"}
+              {" · Patch version v"}{patch.version}{" · Windows + Wine · Japanese DVD retail edition required · "}<a href="#install">Installation instructions</a>
             </p>
           </div>
           <div aria-hidden="true" />
