@@ -14,6 +14,9 @@ export default function Home() {
         <picture>
           <img className="hero-backdrop" src="./moonlit-sail-hero.png" alt="" aria-hidden="true" />
         </picture>
+<picture>
+          <img className="hero-backdrop hero-backdrop-soft" src="./moonlit-sail-hero.png" alt="" aria-hidden="true" />
+        </picture>
         <SiteNav releaseHref="./" scriptHref="./script/" currentPage="release" />
         <div className="hero-grid shell">
           <div className="hero-copy">

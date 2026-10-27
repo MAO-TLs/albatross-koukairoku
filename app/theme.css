@@ -10,3 +10,11 @@ footer { background:#18232c; }
 .hero::after { background:linear-gradient(90deg,rgba(16,23,30,.92) 0%,rgba(25,34,42,.78) 39%,rgba(26,35,43,.20) 70%,rgba(16,23,30,.05) 100%); }
 .hero .button-primary { background:#c1ccd4; color:#202b34; }
 @media(max-width:900px) { .hero::after { background:linear-gradient(90deg,rgba(16,23,30,.95) 0%,rgba(25,34,42,.84) 58%,rgba(16,23,30,.36) 100%); } }
+
+/* Blur only the artwork, fading continuously through the upper quarter. */
+.hero-backdrop-soft {
+  filter: blur(14px);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000, rgba(0,0,0,.75) 6%, rgba(0,0,0,.35) 13%, rgba(0,0,0,.08) 20%, transparent 25%);
+  mask-image: linear-gradient(to bottom, #000, rgba(0,0,0,.75) 6%, rgba(0,0,0,.35) 13%, rgba(0,0,0,.08) 20%, transparent 25%);
+}
