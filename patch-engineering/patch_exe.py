@@ -12,6 +12,7 @@ from pathlib import Path
 
 from engine_layout import apply_layout_hooks, FONT_FACE_ADDRESS
 from private_font import apply_private_font
+from stack_probes import apply_stack_probes
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -240,6 +241,7 @@ def main() -> None:
         string_changes.append(patch_slot(image, patch))
     layout_changes = apply_layout_hooks(image, args.font)
     layout_changes.append(apply_private_font(image))
+    layout_changes.append(apply_stack_probes(image))
     output = bytes(image)
     if len(output) != len(original) + 8192:
         raise ValueError("unexpected size after adding private font code/data sections")

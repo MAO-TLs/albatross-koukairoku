@@ -1,0 +1,99 @@
+ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.2
+
+v1.0.2 (2026-10-29): Fixes missing stack-page probes in four enlarged text
+buffers. The previous allocations could skip Windows' stack guard page and
+terminate the game during text rebuilding, including save loading. The larger
+buffers are retained to prevent long English passages from overwriting memory.
+Regression tests reproduce the skipped-page fault and verify sequential page
+growth, unchanged registers and flags, and nested text copies through all
+three caller paths. Native Windows XP has not been verified; this is a
+candidate fix for the reported XP save-loading crash, not an XP test claim.
+The translated script, artwork archives and save format are unchanged.
+To update, close the game and rerun this installer with MAO-original-backup
+retained. Existing saves and preferences are preserved.
+
+v1.0.1 (2026-10-08): Enlarges the story caller and both text-rebuild destination
+buffers from 1,024 to 8,192 bytes. Three legitimate English records could
+overwrite the caller's return address despite the earlier inner-buffer fix.
+Native regression tests reproduce the old corruption and verify the corrected
+copy, caller arguments and stack cleanup in all three paths.
+
+Restores the original layout tags for all 30 choice
+captions. Missing tags made the first twins choice invisible and prevented
+normal advancement. Choice captions remain English; scenario bytecode and
+branch destinations are unchanged. Native menu-parser and archive regression
+tests pass. These fixes have not received a new live-game playthrough.
+To update v1.0.0, close the game and rerun this installer with your existing
+MAO-original-backup retained. Saves and preferences are preserved. If a save
+was made at the broken menu, try a checkpoint before the twins' question.
+
+2026-10-07 readability hotfix: Small/Medium/Large story fonts are now
+14/18/20 logical pixels (previously 12/16/18), with matching character spacing.
+Slow text reveal now takes twice as long as Normal; Instant is unchanged.
+Re-download and rerun the installer with MAO-original-backup retained.
+These changes pass native-code layout/timing and installer regression tests.
+They have not received a new live-game playthrough. Changing font size on an
+already-filled page can still clip accumulated text; select your preferred
+size before continuing, rather than enlarging a dense page midway through it.
+
+2026-10-07 crash hotfix: English story preprocessing is now independent of
+the Windows system code page, and its temporary buffer has been enlarged for
+the longest translated passages. Re-download and rerun this installer if you
+already installed v1.0.0; keep MAO-original-backup in place.
+
+2026-10-07 UI hotfix: Stop Voice now correctly reads On (left), Off (right),
+matching the Japanese あり / なし buttons. Re-download and rerun this installer
+to update an initial v1.0.0 installation; keep MAO-original-backup in place.
+
+Requires your installed Japanese DVD retail copy (2010-07-23), with exact
+matching Albatross.exe, scr.xfl, grpo.xfl and grps.xfl. Other editions and
+other English patches are not supported. This download is not the game.
+
+INSTALL
+1. Install the Japanese game normally and close it.
+2. Extract this ZIP to a separate folder. Keep every included file together.
+3. Install Python 3 if needed. On Windows, double-click Install English Patch.cmd
+   and enter the installed game folder. Do not select the MDF/MDS or DVD folder.
+   Alternatively run: python3 install_patch.py "path/to/installed/game"
+4. Start the game's Albatross.exe normally.
+
+The installer checks the edition and every output checksum before replacing
+files. Original game files are retained in MAO-original-backup inside the game
+folder. Saves and preferences are not replaced. Reinstalling this exact patch
+is safe. Keep the backup folder for restoring the Japanese version.
+
+RESTORE JAPANESE
+Close the game, then run:
+python3 install_patch.py "path/to/installed/game" --uninstall
+Saves are left untouched; the bundled font is retained in the backup folder.
+
+FEATURES
+Complete English story script; translated settings, title/Extras buttons,
+save/load titles, chapter labels, confirmations and window title. IBM Plex Mono
+Regular throughout. Left-aligned horizontal story text with word wrapping,
+authored line breaks, and Small/Medium/Large reflow into a fixed safe area.
+Original voice and scenario-control bytecode is preserved. Font/direction
+controls are locked; Japanese ruby annotations are absent from English text.
+
+FONT
+The installer places IBM Plex Mono beside the game in Fonts. The patched game
+loads it privately for its own process; no system-wide font installation or
+administrator access is required. Its SIL Open Font License is included.
+
+COMPATIBILITY / QA
+Tested locally with the project's isolated Wine environment on macOS, including
+opening-scene play, settings, save/load, wrapping, three-size reflow, and the
+reported long-page truncation regression. Native Windows and a full-game
+playthrough have not been verified. Original voice control is preserved;
+this is not a claim that every voice's audible timing has been tested.
+The reported opening-cabin crash transition is reproduced and fixed in the
+native-code regression harness under Japanese and Western code-page rules.
+
+This patch is for an existing game installation. No standalone Mac application
+or Wine runtime is included; the local development wrapper is not distributed.
+Japanese saves may cache old glyph/layout state. Begin a new English game;
+back up existing saves before experimenting with cross-language checkpoints.
+
+Original game: raiL-soft. Translation project: MAO Translations.
+Bundled font: IBM Plex Mono by IBM, SIL Open Font License 1.1.
+Project and online reader: https://mao-tls.github.io/albatross-koukairoku/

@@ -6,6 +6,7 @@ from build_script_patch import OUTPUT_ARCHIVE, parse_gsc, parse_xfl
 from test_engine_layout import (emulator, UC_HOOK_CODE, UC_X86_REG_EAX,
                                 UC_X86_REG_ECX, UC_X86_REG_EDI, UC_X86_REG_ESP)
 from engine_layout import ENGLISH_TEXT_FRAME_PATCHES
+from stack_probes import STACK_PROBES, entry_jump
 
 
 def caller_trace(raw, legacy=False, rebuild=0):
@@ -84,7 +85,7 @@ class StoryCallerTests(unittest.TestCase):
     def test_frame_patches_and_argument_loads_are_exact(self):
         uc = emulator()
         for address, _, replacement in ENGLISH_TEXT_FRAME_PATCHES:
-            expected = bytes.fromhex(replacement)
+            expected = entry_jump(address) if address in STACK_PROBES else bytes.fromhex(replacement)
             self.assertEqual(bytes(uc.mem_read(address, len(expected))), expected)
 
     def test_pre_v101_destination_corrupts_caller_for_long_text(self):

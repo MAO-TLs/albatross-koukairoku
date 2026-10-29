@@ -46,6 +46,8 @@ test('all 13,128 passages in 84 scripts are browsable and searchable exactly onc
         assert.equal(line.line, i+1);
         assert.ok(line.english.trim(), line.ref);
         assert.doesNotMatch(line.english, /\bruby\s*:/i, line.ref);
+        assert.doesNotMatch(line.english, /<(?:ruby|rt|rp)\b|\[R[^\]\n]*\^|\^[rR]/i, line.ref);
+        assert.ok(!line.englishRuby && !line.furigana, line.ref);
         assert.deepEqual(searchableScript.lines[i].slice(0,7), [line.ref,line.line,
           line.speakerJa,line.speakerEn,line.japanese,line.english,line.japaneseRuby]);
       });

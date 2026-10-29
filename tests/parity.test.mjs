@@ -42,12 +42,12 @@ test('public script has no audit or unsupported release claims', () => {
   assert.match(read('public/robots.txt'), /Allow: \//);
   assert.doesNotMatch(read('app/page.tsx'), /Patch coming soon|46,618|18\.1 MB|v1\.1/);
   const patch = JSON.parse(read('public/patch-release.json'));
-  assert.equal(patch.version, '1.0.1');
-  assert.match(patch.downloadUrl, /^https:\/\/github.com\/MAO-TLs\/albatross-koukairoku\/releases\/download\/v1\.0\.1\/Albatross-Koukairoku-English-v1\.0\.1\.zip$/);
-  assert.equal(patch.sha256, '87b114e088f26c521602e87998a2926ca7c71e1bc3033dc7a3c48635723f941c');
-  assert.equal(patch.revision, '2026-10-08-choice-and-buffer-fix');
-  assert.equal(patch.exeSha256, '7b53c254ab511a8829b29fd11f03d4b368b044b8c7a15eb1198525702b1e3eac');
-  assert.equal(patch.size, 3547052);
+  assert.equal(patch.version, '1.0.2');
+  assert.match(patch.downloadUrl, /^https:\/\/github.com\/MAO-TLs\/albatross-koukairoku\/releases\/download\/v1\.0\.2\/Albatross-Koukairoku-English-v1\.0\.2\.zip$/);
+  assert.equal(patch.sha256, '799f702b0794e647eaab05b6dcdf96e7ef19a1dd1f781fb018db4c3802d6a51d');
+  assert.equal(patch.revision, '2026-10-29-stack-guard-fix');
+  assert.equal(patch.exeSha256, 'ad0fededb7f90559977d30f8d16e1f7e216b3ae20e8f326a6d846ddae323504e');
+  assert.equal(patch.size, 3547474);
   assert.deepEqual(patch.storyFontSizes, [14, 18, 20]);
   assert.match(read('public/patch-installation.txt'), /already-filled page can still clip/);
   assert.equal(patch.requiresOriginalGame, true);

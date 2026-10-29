@@ -1,6 +1,6 @@
-# v1.0.1 executable and installer sources
+# v1.0.2 executable and installer sources
 
-These are the executable-hook, UI-label, script and installer sources used for v1.0.1,
+These are the executable-hook, UI-label, script and installer sources used for v1.0.2,
 including the earlier v1.0.0 hotfixes. Original game files are not included. The published ZIP is a delta patch
 and requires the exact 2010-07-23 Japanese DVD retail files.
 
@@ -37,10 +37,21 @@ All 30 choice captions retain the source `<01>` layout prefix. Both native
 question and answer parsers now select existing `sel_q01`/`sel_a01` artwork,
 rather than the missing default 00 artwork. Reader text remains unchanged.
 
+v1.0.2 adds page-by-page stack probes before all four enlarged allocations.
+The earlier SUB instructions could jump over Windows' stack guard page and
+fault on the next stack access. Jump trampolines in the unused tail of the
+existing RX section touch each page before moving ESP; they preserve registers,
+stack contents and the original SUB flags, without adding API imports.
+The enlarged buffers, translation archives and save format are unchanged.
+
 ## Verification scope
 
-- 23 x86/layout regression tests, 13 installer tests, 3 script-control tests,
-  4 source-bound UI-label/scope tests, 4 choice tests and 3 caller-buffer tests.
+- 54 tests pass: 23 x86/layout, 14 installer, 3 script-control,
+  4 source-bound UI-label/scope, 4 choice, 3 caller-buffer and 3 stack-probe tests.
+- Stack-probe tests execute the patched x86 with modeled one-page stack growth.
+  The old allocations fail at all four sites; the fix passes at seven stack
+  offsets per site. Register/flag/memory equivalence and nested copies of up to
+  8,191 bytes pass. This model is not a native Windows XP reproduction.
 - Stop Voice correctly shows On (left) / Off (right), matching あり / なし.
   Only its six normal/hover/selected sprite payloads changed; native positions,
   callbacks and every other archive entry are unchanged. The installer accepts
@@ -57,8 +68,12 @@ rather than the missing default 00 artwork. Reader text remains unchanged.
   game check. Enlarging an already-filled page can still clip accumulated text;
   select the desired size before continuing rather than resizing a dense page.
 
+v1.0.2 is being released without a new live-game test, as authorized by the
+project lead. The prior Wine checks do not prove
+the reported Windows XP failure is resolved; reporter verification is still needed.
+
 Release archive SHA-256:
-`87b114e088f26c521602e87998a2926ca7c71e1bc3033dc7a3c48635723f941c`
+`799f702b0794e647eaab05b6dcdf96e7ef19a1dd1f781fb018db4c3802d6a51d`
 
 Patched executable SHA-256:
-`7b53c254ab511a8829b29fd11f03d4b368b044b8c7a15eb1198525702b1e3eac`
+`ad0fededb7f90559977d30f8d16e1f7e216b3ae20e8f326a6d846ddae323504e`

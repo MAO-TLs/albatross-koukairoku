@@ -95,7 +95,9 @@ export default function Home() {
           <aside className="install-warning">
             <strong>Platform validation</strong>
             <p>The opening, settings, save/load, font loading and reported truncation
-              regression were checked in Wine on macOS. Native Windows and a full-game
+              regression were checked in Wine on macOS on earlier builds. The v1.0.2
+              stack-guard fix passes automated tests but has not received a new live-game check.
+              Native Windows, including XP, and a full-game
               playthrough have not been verified. No standalone Mac app is included.</p>
           </aside>
         </div>

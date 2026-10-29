@@ -11,7 +11,7 @@ import zipfile
 from build_script_patch import ROOT, PATCH_ROOT, GAME_ROOT, parse_xfl
 from install_patch import FILES, FONT, install, file_hash
 
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 RELEASE = PATCH_ROOT / 'release' / ('v' + VERSION)
 PACKAGE = RELEASE / ('Albatross-Koukairoku-English-v' + VERSION)
 

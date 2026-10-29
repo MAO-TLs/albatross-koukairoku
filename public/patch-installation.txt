@@ -1,4 +1,16 @@
-ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.1
+ALBATROSS KOUKAIROKU — MAO ENGLISH PATCH v1.0.2
+
+v1.0.2 (2026-10-29): Fixes missing stack-page probes in four enlarged text
+buffers. The previous allocations could skip Windows' stack guard page and
+terminate the game during text rebuilding, including save loading. The larger
+buffers are retained to prevent long English passages from overwriting memory.
+Regression tests reproduce the skipped-page fault and verify sequential page
+growth, unchanged registers and flags, and nested text copies through all
+three caller paths. Native Windows XP has not been verified; this is a
+candidate fix for the reported XP save-loading crash, not an XP test claim.
+The translated script, artwork archives and save format are unchanged.
+To update, close the game and rerun this installer with MAO-original-backup
+retained. Existing saves and preferences are preserved.
 
 v1.0.1 (2026-10-08): Enlarges the story caller and both text-rebuild destination
 buffers from 1,024 to 8,192 bytes. Three legitimate English records could
