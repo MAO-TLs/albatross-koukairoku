@@ -35,9 +35,9 @@ test('landing keeps MAO section structure and credits', () => {
   assert.doesNotMatch(page, /<code>\s|\s<\/code>/);
   assert.match(page, /unabridged/);
 });
-test('public script has no audit or unsupported release claims', () => {
-  assert.equal(existsSync(new URL('../app/audit',import.meta.url)), false);
-  assert.doesNotMatch(read('app/SiteNav.tsx'), /Audit/);
+test('authorized Argokaj audit is linked without changing patch release claims', () => {
+  assert.equal(existsSync(new URL('../app/audit',import.meta.url)), true);
+  assert.match(read('app/SiteNav.tsx'), /Audit/);
   assert.match(read('app/layout.tsx'), /index: true, follow: true/);
   assert.match(read('public/robots.txt'), /Allow: \//);
   assert.doesNotMatch(read('app/page.tsx'), /Patch coming soon|46,618|18\.1 MB|v1\.1/);
@@ -62,7 +62,8 @@ test('hero and title are Albatross-specific', () => {
   assert.doesNotMatch(read('app/page.tsx') + read('app/SiteFooter.tsx') + read('app/script/page.tsx'), /Saihate|WHITE ALBUM|Farthest2015/);
 });
 test('complete reader is mounted through the existing MAO engine', () => {
-  assert.match(read('app/script/page.tsx'), /<ScriptBrowser \/>/);
+  assert.match(read('app/script/page.tsx'), /<Reader \/>/);
+  assert.match(read('app/script/Reader.tsx'), /<ScriptBrowser \/>/);
   assert.match(read('app/script/page.tsx'), /Script version v1\.0\.0/);
   assert.doesNotMatch(read('app/script/page.tsx'), /will be available|Coming soon/);
   assert.match(read('app/script/ScriptBrowser.tsx'), /albatross-public-concordance/);

@@ -1,0 +1,4 @@
+/* Keep the brand intact; let navigation move onto another row instead. */
+.nav { flex-wrap: wrap; gap: 12px 24px; }
+.nav .wordmark { white-space: nowrap; flex-shrink: 0; }
+.nav .nav-links { flex-wrap: wrap; }

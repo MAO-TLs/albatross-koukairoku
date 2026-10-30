@@ -1,7 +1,7 @@
 type SiteNavProps = {
   releaseHref: string;
   scriptHref: string;
-  currentPage: "release" | "script" | "none";
+  currentPage: "release" | "script" | "audit" | "none";
 };
 
 import { REPOSITORY_URL } from "../site-target.mjs";
@@ -29,6 +29,7 @@ export function SiteNav({
         >
           Script
         </a>
+        <a href={currentPage === "release" ? "audit/" : "../audit/"} aria-current={currentPage === "audit" ? "page" : undefined}>Audit</a>
         <a href={REPOSITORY_URL}>GitHub</a>
       </div>
     </nav>

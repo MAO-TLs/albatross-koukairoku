@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { SITE_BASE_PATH } from "../site-target.mjs";
 import "./globals.css";
 import "./theme.css";
+import "./audit.css";
+import "./wordmark.css";
 export const metadata: Metadata = {
   title: "Albatross Koukairoku | MAO",
   description: "Read the complete MAO English translation of Albatross Koukairoku beside its Japanese source.",
