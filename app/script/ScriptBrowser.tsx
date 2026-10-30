@@ -16,6 +16,7 @@ import { validHyperlinks } from "./hyperlinks.mjs";
 import { parseReaderLocation, safeHash } from "./location.mjs";
 import { HyperlinkPreviewProvider, HyperlinkTrigger } from "./HyperlinkPreview";
 import { countLabel } from "../count-label.mjs";
+import { ArgokajReader, useArgokajComparison } from "./ArgokajReader";
 
 type RouteSummary = {
   id: string;
@@ -499,6 +500,8 @@ function ScriptBrowserContent() {
     useState<ConcordancePayload | null>(null);
   const [concordanceError, setConcordanceError] = useState("");
   const [showTodokanai, setShowTodokanai] = useState(false);
+  const [showArgokaj, setShowArgokaj] = useState(false);
+  const [showArgokajErrors, setShowArgokajErrors] = useState(false);
   const [showHyperlinks, setShowHyperlinks] = useState(true);
   const [showTodokanaiErrors, setShowTodokanaiErrors] = useState(false);
   const [todokanaiPayload, setTodokanaiPayload] =
@@ -538,7 +541,10 @@ function ScriptBrowserContent() {
         setPendingRef(state.pendingRef);
         setSearchScope(state.searchScope);
         setCorpusQuery(state.corpusQuery);
+        setScriptQuery(state.scriptQuery);
         setCorpusRouteId(state.corpusRouteId);
+        setShowArgokaj(state.argokaj);
+        setShowArgokajErrors(state.argokajErrors);
         setShowTodokanai(state.comparison);
         setShowTodokanaiErrors(state.comparisonErrors);
         setUrlReady(true);
@@ -574,6 +580,7 @@ function ScriptBrowserContent() {
       ? orderedScripts[selectedScriptIndex + 1]
       : null;
   const query = searchScope === "corpus" ? corpusQuery : scriptQuery;
+  const argokajView = useArgokajComparison({enabled: showArgokaj, scriptId, scope: searchScope, query, routeFilter: corpusRouteId});
   const hasCorpusQuery = corpusQuery.trim() !== "";
   const normalizedCorpusQuery = normalizeSearchText(
     deferredCorpusQuery.trim(),
@@ -608,12 +615,24 @@ function ScriptBrowserContent() {
     setCorpusLimit(CORPUS_BATCH_SIZE);
   }
 
+  function toggleArgokaj(enabled: boolean) {
+    const url = new URL(window.location.href);
+    const hash = safeHash(url.hash);
+    const group = argokajView.data?.scripts.flatMap(s => s.groups).find(g => g.id === hash);
+    if (!enabled && group) { url.hash = group.source[0].readerRef; setPendingRef(group.source[0].readerRef); }
+    else if (hash) setPendingRef(hash);
+    if (enabled) url.searchParams.set("compare", "argokaj");
+    else { url.searchParams.delete("compare"); url.searchParams.delete("errors"); setShowArgokajErrors(false); }
+    setShowArgokaj(enabled);
+    window.history.pushState(null, "", url);
+  }
+
   useEffect(() => {
     if (!index) return;
     function followPassageHash() {
       const state = parseReaderLocation(window.location.href, index!);
       setSearchScope(state.searchScope);
-      setScriptQuery("");
+      setScriptQuery(state.scriptQuery);
       setCorpusQuery(state.corpusQuery);
       setCorpusRouteId(state.corpusRouteId);
       setCorpusLimit(CORPUS_BATCH_SIZE);
@@ -622,6 +641,8 @@ function ScriptBrowserContent() {
       setPendingRef(state.pendingRef);
       setShowTodokanai(state.comparison);
       setShowTodokanaiErrors(state.comparisonErrors);
+      setShowArgokaj(state.argokaj);
+      setShowArgokajErrors(state.argokajErrors);
     }
     window.addEventListener("hashchange", followPassageHash);
     window.addEventListener("popstate", followPassageHash);
@@ -657,7 +678,8 @@ function ScriptBrowserContent() {
         url.hash = "";
       } else {
         url.searchParams.delete("scope");
-        url.searchParams.delete("q");
+        if (scriptQuery) url.searchParams.set("q", scriptQuery);
+        else url.searchParams.delete("q");
         url.searchParams.delete("section");
         url.searchParams.delete("chapter");
         url.searchParams.set("route", routeId);
@@ -677,18 +699,24 @@ function ScriptBrowserContent() {
               : hashParts[1] === "coda"
                 ? "coda"
                 : "";
-        if (hashRouteId !== routeId || hashParts[2] !== scriptId) {
+        if (showArgokaj && hashParts[0] === "albatross-argokaj" && hashParts[1] === scriptId) {
+          url.hash = normalizedHash;
+        } else if (hashRouteId !== routeId || hashParts[2] !== scriptId) {
           url.hash = "";
         } else {
           url.hash = normalizedHash;
         }
       }
-      if (showTodokanai) {
+      if (showArgokaj) {
+        url.searchParams.set("compare", "argokaj");
+      } else if (showTodokanai) {
         url.searchParams.set("compare", "todokanai");
       } else {
         url.searchParams.delete("compare");
       }
-      if (showTodokanai && showTodokanaiErrors) {
+      if (showArgokaj && showArgokajErrors) {
+        url.searchParams.set("errors", "argokaj");
+      } else if (showTodokanai && showTodokanaiErrors) {
         url.searchParams.set("errors", "todokanai");
       } else {
         url.searchParams.delete("errors");
@@ -701,6 +729,7 @@ function ScriptBrowserContent() {
     return () => window.clearTimeout(timeout);
   }, [
     corpusQuery,
+    scriptQuery,
     corpusRouteId,
     index,
     routeId,
@@ -708,6 +737,8 @@ function ScriptBrowserContent() {
     searchScope,
     showTodokanai,
     showTodokanaiErrors,
+    showArgokaj,
+    showArgokajErrors,
     urlReady,
   ]);
 
@@ -774,7 +805,7 @@ function ScriptBrowserContent() {
   }, [searchScope, selectedRoute, scriptId, showTodokanai]);
 
   useEffect(() => {
-    if (!index || todokanaiErrorIndex) return;
+    if (!index?.comparison || todokanaiErrorIndex) return;
 
     const controller = new AbortController();
     fetch("../todokanai-errors/index.json", { signal: controller.signal })
@@ -1182,7 +1213,7 @@ function ScriptBrowserContent() {
         todokanaiConcordanceAligned !== true));
 
   useEffect(() => {
-    if (!pendingRef || !activePayload) return;
+    if (showArgokaj || !pendingRef || !activePayload) return;
     if (!activePayload.lines.some((line) => line.ref === pendingRef)) return;
     if (
       showTodokanai &&
@@ -1215,6 +1246,7 @@ function ScriptBrowserContent() {
     activeTodokanaiErrorPayload,
     activeTodokanaiPayload,
     pendingRef,
+    showArgokaj,
     showTodokanai,
     showTodokanaiErrors,
     todokanaiErrorsByRef,
@@ -1409,8 +1441,21 @@ function ScriptBrowserContent() {
           aria-live="polite"
           aria-atomic="true"
         >
-          {resultStatus}
+          {showArgokaj ? argokajView.resultStatus : resultStatus}
         </div>
+
+        <label className="comparison-toggle">
+          <input type="checkbox" checked={showArgokaj} onChange={event => toggleArgokaj(event.target.checked)} />
+          <span>Display Argokaj for comparison</span>
+          <small aria-live="polite">{searchScope === "corpus" ? "13,128 source lines across the corpus" : `${selectedScript?.lineCount.toLocaleString() ?? "…"} source lines in this script`}</small>
+        </label>
+        {showArgokaj && <div className="comparison-errors-row">
+          <label className="comparison-toggle comparison-toggle-errors">
+            <input type="checkbox" checked={showArgokajErrors} onChange={event => setShowArgokajErrors(event.target.checked)} />
+            <span>Display Argokaj errors</span>
+          </label>
+          <small className="comparison-errors-status" aria-live="polite">{argokajView.data ? `${argokajView.errorCount.toLocaleString()} errors ${searchScope === "script" ? "in this script" : "across the corpus"}` : "Loading error notes…"}</small>
+        </div>}
 
         {index?.comparison ? <label className="comparison-toggle">
           <input
@@ -1461,11 +1506,13 @@ function ScriptBrowserContent() {
         ) : null}
       </div>
 
-      {searchScope === "script" && error ? (
+      {showArgokaj && <ArgokajReader view={argokajView} scope={searchScope} query={query} routeFilter={corpusRouteId} onRouteFilter={setCorpusRouteId} errors={showArgokajErrors} pendingRef={pendingRef} />}
+
+      {!showArgokaj && searchScope === "script" && error ? (
         <p className="script-status">{error}</p>
       ) : null}
 
-      {searchScope === "script" && activePayload ? (
+      {!showArgokaj && searchScope === "script" && activePayload ? (
         <>
           {corpusQuery.trim() ? (
             <button
@@ -1590,7 +1637,7 @@ function ScriptBrowserContent() {
         </>
       ) : null}
 
-      {searchScope === "corpus" ? (
+      {!showArgokaj && searchScope === "corpus" ? (
         <>
           {hasCorpusQuery && concordanceError ? (
             <p className="script-status">{concordanceError}</p>

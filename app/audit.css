@@ -361,15 +361,8 @@
   .audit-stat-grid > div { padding: 18px 12px; }
 }
 
-.argokaj-entry, .argokaj-toggles { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; font-size: 13px; }
-.argokaj-entry { padding-top: 24px; }
-.argokaj-entry label, .argokaj-toggles label { cursor: pointer; }
-.argokaj-entry a, .argokaj-toggles a { color: var(--blue); }
-.argokaj-toggles { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 14px; }
-.argokaj-result-count { align-self: center; color: var(--ink-soft); font-family: var(--mono); font-size: 11px; }
 .argokaj-alignment-note { font-size: 12px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 22px; }
 .argokaj-reader .argokaj-paragraph + .argokaj-paragraph { margin-top: 1.25em; }
-.argokaj-reader .line-argokaj { background: #f5f8fb; }
 .argokaj-phrase { position: relative; padding: 0; color: var(--error, #a83d46); background: var(--error-soft, #f6e4e6); border-bottom: 1px dotted currentColor; cursor: pointer; }
 .argokaj-phrase:focus-visible { outline: 2px solid var(--error, #a83d46); outline-offset: 2px; }
 .argokaj-tooltip { display: none; position: fixed; z-index: 30; bottom: 24px; right: 24px; width: min(430px, calc(100vw - 32px)); max-height: min(450px, 60vh); overflow: auto; padding: 20px; background: white; color: var(--ink); border: 1px solid var(--error, #a83d46); box-shadow: 0 8px 40px #0002; font-family: var(--sans); font-size: 13px; line-height: 1.6; text-align: left; white-space: normal; cursor: default; }
