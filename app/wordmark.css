@@ -1,4 +1,5 @@
-/* Keep the brand intact; let navigation move onto another row instead. */
-.nav { flex-wrap: wrap; gap: 12px 24px; }
-.nav .wordmark { white-space: nowrap; flex-shrink: 0; }
-.nav .nav-links { flex-wrap: wrap; }
+/* Keep MAO TRANSLATIONS on one line at every viewport width. */
+.nav.shell, .masthead { flex-wrap: wrap; column-gap: 24px; row-gap: 12px; }
+.nav.shell .wordmark, .masthead .brand { max-width: none; white-space: nowrap; flex-shrink: 0; }
+.nav.shell .nav-links, .masthead nav { flex-wrap: wrap; }
+.nav.shell .nav-links a, .masthead nav a { white-space: nowrap; }
