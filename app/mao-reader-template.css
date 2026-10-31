@@ -97,7 +97,7 @@
 	font-size: clamp(46px, 6vw, 78px);
 	font-weight: 400;
 	letter-spacing: -.05em;
-	line-height: 1.5;
+	line-height: 1.02;
 }
 .reader-page .reader-intro > p:last-of-type {
 	max-width: 680px;

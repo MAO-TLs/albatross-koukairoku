@@ -6,7 +6,7 @@ const read = p => readFileSync(new URL('../'+p, import.meta.url), 'utf8');
 const sha = p => createHash('sha256').update(read(p)).digest('hex');
 test('canonical MAO publication and reader styles remain exact copies', () => {
   assert.equal(sha('app/mao-publication-template.css'), 'ba5e364b91a96297549ae7c552769af9cff01ae044b15c658e770fd2a55e6d7a');
-  assert.equal(sha('app/mao-reader-template.css'), '24728a1a18fa4eec57cc653f3a0911221e07b6fa69368b822789677d739c4b7f');
+  assert.equal(sha('app/mao-reader-template.css'), '7b91560a578fc64b74c4c83153e1d9f55c2e840184b3147969657c4be0774e0c');
 });
 test('steel theme changes colors only, not layout or typography', () => {
   assert.doesNotMatch(read('app/theme.css'), /[;{]\s*(?:font-size|width|height|margin|padding|display|grid-template|gap|line-height|letter-spacing)\s*:/);
